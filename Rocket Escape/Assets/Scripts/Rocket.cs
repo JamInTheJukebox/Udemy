@@ -8,9 +8,12 @@ public class Rocket : MonoBehaviour {
     private Rigidbody TheRocket;
     public float thrust = 10;
     public float torque = 10;
+    private AudioSource AudioPlayer;
+
     private void Awake()
     {
         TheRocket = GetComponent<Rigidbody>();
+        AudioPlayer = GetComponent<AudioSource>();
     }
     void Update ()
     {
@@ -23,6 +26,14 @@ public class Rocket : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space))
         {
             TheRocket.AddRelativeForce(thrust*Vector3.up);
+            if (!AudioPlayer.isPlaying)
+            {
+                AudioPlayer.Play();
+            }
+        }
+        else if (Input.GetKeyUp(KeyCode.Space))
+        {
+            AudioPlayer.Stop();
         }
         if (Input.GetKey(KeyCode.A))
         {

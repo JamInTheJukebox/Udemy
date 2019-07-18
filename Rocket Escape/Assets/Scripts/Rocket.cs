@@ -17,11 +17,11 @@ public class Rocket : MonoBehaviour {
     }
     void Update ()
     {
-        ProcessInput();
-
+        ProcessMoveInput();
+        ProcessRotation();
     }
 
-    private void ProcessInput()
+    private void ProcessMoveInput()
     {
         if (Input.GetKey(KeyCode.Space))
         {
@@ -31,19 +31,26 @@ public class Rocket : MonoBehaviour {
                 AudioPlayer.Play();
             }
         }
+
         else if (Input.GetKeyUp(KeyCode.Space))
         {
             AudioPlayer.Stop();
         }
+    }
+
+    private void ProcessRotation()
+    {
+        TheRocket.freezeRotation = true;
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Rotate(torque* Vector3.forward * Time.deltaTime);
+            transform.Rotate(torque * Vector3.forward * Time.deltaTime);
         }
         else if (Input.GetKey(KeyCode.D))
         {
             print("TUrn Right");
             transform.Rotate(-torque * Vector3.forward * Time.deltaTime);
-
         }
+        TheRocket.freezeRotation = false;
+
     }
 }

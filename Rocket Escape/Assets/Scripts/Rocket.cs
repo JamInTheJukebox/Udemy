@@ -26,6 +26,8 @@ public class Rocket : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space))
         {
             TheRocket.AddRelativeForce(thrust*Vector3.up);
+            TheRocket.velocity = Vector3.ClampMagnitude(TheRocket.velocity, 100f);
+            print(TheRocket.velocity.magnitude);
             if (!AudioPlayer.isPlaying)
             {
                 AudioPlayer.Play();
@@ -47,10 +49,31 @@ public class Rocket : MonoBehaviour {
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            print("TUrn Right");
             transform.Rotate(-torque * Vector3.forward * Time.deltaTime);
         }
         TheRocket.freezeRotation = false;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.tag)
+        {
+            case "Friendly":
+                print("Ok");
+                break;
+
+            case "Fuel":
+                print("Add Fuel");
+                break;
+
+            case "Danger":
+                Destroy(gameObject);
+                break;
+            default:
+                print("IDK");
+                break;
+        }
 
     }
 }
+
